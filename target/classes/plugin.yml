@@ -1,0 +1,4 @@
+name: HTGLoggers
+version: '1.0'
+main: pl.htgmc.htgloggers.HTGLoggers
+api-version: '1.20'
