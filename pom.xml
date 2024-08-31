@@ -37,6 +37,13 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/WaleonGames/htgloggers</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
             <plugin>
