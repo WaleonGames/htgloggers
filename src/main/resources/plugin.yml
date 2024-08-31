@@ -1,4 +1,0 @@
-name: HTGLoggers
-version: '${project.version}'
-main: pl.htgmc.htgloggers.HTGLoggers
-api-version: '1.20'
