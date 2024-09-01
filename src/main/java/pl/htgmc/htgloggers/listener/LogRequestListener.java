@@ -1,9 +1,9 @@
 package pl.htgmc.htgloggers.listener;
 
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import pl.htgmc.htgloggers.HTGLoggers;
 import pl.htgmc.htgloggers.events.LogRequestEvent;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 public class LogRequestListener implements Listener {
 
@@ -14,9 +14,8 @@ public class LogRequestListener implements Listener {
     }
 
     @EventHandler
-    public void onLogRequest(LogRequestEvent event) {
+    public void onLogRequestEvent(LogRequestEvent event) {
         String pluginName = event.getPluginName();
         plugin.createLogFile(pluginName);
-        plugin.getLogger().info("Log file created for plugin: " + pluginName);
     }
 }
