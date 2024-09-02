@@ -1,0 +1,17 @@
+# Konfiguracja logowania HTGLoggers
+
+logging:
+  enabled: true  # Czy logowanie jest włączone
+
+  format:
+    timestamp_format: "yyyy-MM-dd HH:mm:ss"  # Format znacznika czasu
+    join_format: "[{time}] Player joined: {player}"
+    quit_format: "[{time}] Player left: {player}"
+    chat_format: "[{time}] Chat - {player}: {message}"
+    command_format: "[{time}] Command - {player}: {command}"
+
+  events:
+    log_join: true    # Loguj dołączenia graczy
+    log_quit: true    # Loguj wyjścia graczy
+    log_chat: true    # Loguj wiadomości na czacie
+    log_commands: true  # Loguj użycie komend
