@@ -6,7 +6,7 @@
 
     <groupId>pl.htgmc</groupId>
     <artifactId>HTGLoggers</artifactId>
-    <version>2.0.2.1-Prelease</version>
+    <version>2.0.3.1-prelease</version>
     <packaging>jar</packaging>
 
     <name>HTGLoggers</name>
