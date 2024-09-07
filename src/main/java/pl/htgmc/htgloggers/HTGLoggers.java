@@ -31,6 +31,9 @@ public class HTGLoggers extends JavaPlugin implements Listener {
         // Rejestracja API
         HTGLoggersAPI.initialize(this);
 
+        // Ustawienie statycznej zmiennej plugin
+        HTGLoggersAPI.plugin = this;
+
         // Rejestrujemy nasłuchiwacze
         getServer().getPluginManager().registerEvents(new LogListener(this), this);
         getServer().getPluginManager().registerEvents(new LogRequestListener(this), this);
