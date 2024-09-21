@@ -10,11 +10,13 @@ import pl.htgmc.htgloggers.listener.LogRequestListener;
 import pl.htgmc.htgloggers.listener.logs.*;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class HTGLoggers extends JavaPlugin implements Listener {
 
@@ -28,28 +30,15 @@ public class HTGLoggers extends JavaPlugin implements Listener {
         saveDefaultConfig();
         config = getConfig();
 
-        // Rejestracja API
+        // Inicjalizacja API i rejestracja pluginu
         HTGLoggersAPI.initialize(this);
 
-        // Ustawienie statycznej zmiennej plugin
-        HTGLoggersAPI.plugin = this;
-
-        // Rejestrujemy nasłuchiwacze
-        getServer().getPluginManager().registerEvents(new LogListener(this), this);
-        getServer().getPluginManager().registerEvents(new LogRequestListener(this), this);
-
-        // Rejestracja nasłuchiwaczy dla różnych typów logów
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
-        getServer().getPluginManager().registerEvents(new ChatListener(this), this);
-        getServer().getPluginManager().registerEvents(new CommandListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerTeleportListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerAdvancementListener(this), this);
-        getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
+        // Rejestracja eventów - można dodać warunki na podstawie konfiguracji
+        registerListeners();
 
         getLogger().info("LoggerPlugin has been enabled!");
 
-        // Utwórz lub załaduj plik logu
+        // Tworzenie lub ładowanie pliku logu
         HTGLoggersAPI.createLogFile("htgloggers");
     }
 
@@ -58,22 +47,31 @@ public class HTGLoggers extends JavaPlugin implements Listener {
         getLogger().info("LoggerPlugin has been disabled!");
     }
 
-    public void createLogFile(String pluginName) {
-        File dataFolder = getDataFolder();
-        if (!dataFolder.exists() && !dataFolder.mkdirs()) {
-            getLogger().severe("Could not create data folder!");
-            return;
-        }
+    private void registerListeners() {
+        getServer().getPluginManager().registerEvents(new LogListener(this), this);
+        getServer().getPluginManager().registerEvents(new LogRequestListener(this), this);
 
-        logFile = new File(dataFolder, pluginName + "-log.log");
-        try {
-            if (!logFile.exists() && !logFile.createNewFile()) {
-                getLogger().severe("Could not create log file for plugin: " + pluginName);
-            } else {
-                getLogger().info("Log file created or loaded for plugin: " + pluginName);
-            }
-        } catch (IOException e) {
-            getLogger().severe("An error occurred while creating the log file for plugin " + pluginName + ": " + e.getMessage());
+        // Rejestracja nasłuchiwaczy dla różnych typów logów na podstawie konfiguracji
+        if (isLoggingEnabled("player_join")) {
+            getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        }
+        if (isLoggingEnabled("player_quit")) {
+            getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
+        }
+        if (isLoggingEnabled("chat")) {
+            getServer().getPluginManager().registerEvents(new ChatListener(this), this);
+        }
+        if (isLoggingEnabled("command")) {
+            getServer().getPluginManager().registerEvents(new CommandListener(this), this);
+        }
+        if (isLoggingEnabled("player_teleport")) {
+            getServer().getPluginManager().registerEvents(new PlayerTeleportListener(this), this);
+        }
+        if (isLoggingEnabled("advancement")) {
+            getServer().getPluginManager().registerEvents(new PlayerAdvancementListener(this), this);
+        }
+        if (isLoggingEnabled("block_break")) {
+            getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
         }
     }
 
@@ -82,7 +80,7 @@ public class HTGLoggers extends JavaPlugin implements Listener {
     }
 
     public void log(String message) {
-        getLogger().info(message); // Można logować na konsolę
+        getLogger().info(message); // Logowanie na konsolę
         logToFile(message); // Logowanie do pliku
     }
 
@@ -92,25 +90,23 @@ public class HTGLoggers extends JavaPlugin implements Listener {
             return;
         }
 
-        try (java.io.FileWriter writer = new java.io.FileWriter(logFile, true)) {
+        try (FileWriter writer = new FileWriter(logFile, true)) {
             writer.write(message + "\n");
         } catch (IOException e) {
-            getLogger().severe("Error writing to log file: " + e.getMessage());
+            getLogger().log(Level.SEVERE, "Error writing to log file: ", e);
         }
     }
 
     public String getFormattedMessage(String formatKey, String playerName, String additionalInfo) {
-        String timestamp = new SimpleDateFormat(config.getString("logging.format.timestamp_format")).format(new Date());
-        String format = config.getString("logging.format." + formatKey);
+        // Ustawienia domyślne, jeśli nie znaleziono formatu w konfiguracji
+        String timestampFormat = config.getString("logging.format.timestamp_format", "yyyy-MM-dd HH:mm:ss");
+        String format = config.getString("logging.format." + formatKey, "{time} {player} {message}");
 
-        if (format == null) {
-            getLogger().warning("Format key '" + formatKey + "' not found in config.yml");
-            return "";
-        }
+        String timestamp = new SimpleDateFormat(timestampFormat).format(new Date());
 
         String formattedMessage = format
                 .replace("{time}", timestamp)
-                .replace("{player}", playerName)
+                .replace("{player}", playerName != null ? playerName : "Unknown")
                 .replace("{message}", additionalInfo != null ? additionalInfo : "")
                 .replace("{command}", additionalInfo != null ? additionalInfo : "");
 
