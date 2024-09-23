@@ -39,6 +39,7 @@ To start using the HTGLoggers API in your Minecraft plugin, follow these steps:
             <groupId>com.github.WaleonGames</groupId>
             <artifactId>htgloggers</artifactId>
             <version>latest-version</version> <!-- Replace with the latest version -->
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     ```
