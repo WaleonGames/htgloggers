@@ -1,0 +1,16 @@
+name: HTGLoggers
+version: '${project.version}'
+main: pl.htgmc.htgloggers.HTGLoggers
+api-version: '1.20'
+author: 'ToJaWGYT'
+description: 'Advanced logging plugin for tracking player activities in Minecraft servers.'
+website: 'https://www.spigotmc.org/resources/htgloggers-beta-public-api-beta.119346/'
+
+# Zależności (jeśli Twój plugin wymaga innych pluginów)
+depend: []
+
+# Miękkie zależności (plugin będzie działał bez nich, ale z dodatkowymi funkcjonalnościami, jeśli są obecne)
+softdepend: []
+
+# Dodatkowe informacje
+load: STARTUP
