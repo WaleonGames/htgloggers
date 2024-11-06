@@ -1,3 +1,7 @@
+---
+icon: lock
+---
+
 # Prerequisites
 
 ### Prerequisites

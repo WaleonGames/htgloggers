@@ -1,6 +1,7 @@
 # Table of contents
 
 * [HTGLoggers Plugin](README.md)
+* [Supported plugin versions](supported-plugin-versions.md)
 * [Other](other.md)
 
 ## needed information

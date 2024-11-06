@@ -1,3 +1,7 @@
+---
+icon: hexagon
+---
+
 # Usage Example
 
 ### Usage Example

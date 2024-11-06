@@ -1,3 +1,7 @@
+---
+icon: file-lines
+---
+
 # Features
 
 ## Features

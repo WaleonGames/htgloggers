@@ -1,3 +1,7 @@
+---
+icon: circle-dollar-to-slot
+---
+
 # Contributing
 
 ## Contributing

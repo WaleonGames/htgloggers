@@ -1,3 +1,7 @@
+---
+icon: house-building
+---
+
 # HTGLoggers Plugin
 
 HTGLoggers is a logging API designed to simplify the process of logging important information in Minecraft plugins. It allows you to log messages both to the console and to dedicated log files, providing an easy-to-use interface for plugin developers.

@@ -1,3 +1,7 @@
+---
+icon: magnifying-glass-chart
+---
+
 # Installation
 
 {% hint style="success" %}

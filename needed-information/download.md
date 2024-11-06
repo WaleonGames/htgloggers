@@ -1,3 +1,7 @@
+---
+icon: arrow-down-from-line
+---
+
 # Download
 
 {% hint style="warning" %}
